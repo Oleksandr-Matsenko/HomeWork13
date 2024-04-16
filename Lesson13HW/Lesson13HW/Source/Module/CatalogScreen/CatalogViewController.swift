@@ -16,6 +16,7 @@ class CatalogViewController: UIViewController {
         super.viewDidLoad()
         setupInitialState()
         model.loadData()
+        setupTableView()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -34,6 +35,13 @@ class CatalogViewController: UIViewController {
         
         contentView.tableView.dataSource = self
         contentView.tableView.delegate = self
+        
+        contentView.tableView.register(CustomCellTableViewCell.self, forCellReuseIdentifier: "CustomCell")
+
+    }
+    private func setupTableView() {
+        contentView.tableView.separatorColor = .systemGreen
+        contentView.tableView.separatorInset = .init(top: 0, left: 10, bottom: 0, right: 10)
     }
 }
 
@@ -59,17 +67,22 @@ extension CatalogViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "CatalogCell")
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell", for: indexPath) as? CustomCellTableViewCell
         else {
             assertionFailure()
             return UITableViewCell()
         }
         
         let item = model.pcItems[indexPath.row]
-        cell.textLabel?.text = item.name
-        cell.detailTextLabel?.text = item.model
+        cell.configurePC(pc: item)
         
-        cell.accessoryType = (item.isFavorite ?? false) ? .checkmark : .none
+//        cell.accessoryType = (item.isFavorite ?? false) ? .checkmark : .none
+        cell.favoriteButtonAction = { [weak self] in
+            guard let self = self else {return}
+            let isFavorite = !self.model.pcItems[indexPath.row].favorite()
+            model.updateItem(with: isFavorite, at: indexPath.row)
+            tableView.reloadRows(at: [indexPath], with: .fade)
+        }
         
         return cell
     }
@@ -80,10 +93,14 @@ extension CatalogViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let isFavorite = !model.pcItems[indexPath.row].favorite()
-        model.updateItem(with: isFavorite, at: indexPath.row)
-        
-        let cell = tableView.cellForRow(at: indexPath)
-        cell?.accessoryType = isFavorite ? .checkmark : .none
+//        let isFavorite = !model.pcItems[indexPath.row].favorite()
+//        model.updateItem(with: isFavorite, at: indexPath.row)
+//
+//        let cell = tableView.cellForRow(at: indexPath)
+//        cell?.accessoryType = isFavorite ? .checkmark : .none
     }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+          return 200
+      }
 }
