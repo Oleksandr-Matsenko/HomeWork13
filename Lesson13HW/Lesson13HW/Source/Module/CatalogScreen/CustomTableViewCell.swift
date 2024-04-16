@@ -106,9 +106,9 @@ class CustomCellTableViewCell: UITableViewCell {
     }
     
     // MARK: - Cell Configuration
-    
+    // Setup cell for CatalogViewController
     func configurePC(pc: Pc) {
-        placeholderImageView.image = UIImage(named: "pc1")
+        placeholderImageView.image = UIImage(named: "mainPC")
         // Configure attributed strings for labels
         let productAttributedString = attributedString(withText: "Product code: \(pc.id)", coloredText: "\(pc.id)", color: .systemGreen)
         productCodeLabel.attributedText = productAttributedString
@@ -133,6 +133,24 @@ class CustomCellTableViewCell: UITableViewCell {
         toFavoriteLabel.text = "SAVED"
         toFavoriteLabel.isHidden = true
         toFavoriteLabel.textAlignment = .center
+    }
+    // Setup cell for FavoriteViewController
+    func configuteFavoriteItem(pc: Favorite) {
+        productCodeLabel.attributedText = attributedString(withText: "Product code: \(pc.id)", coloredText: "\(pc.id)", color: .systemGreen)
+        addToFavorite.isHidden = true
+        placeholderImageView.isHidden = false
+        placeholderImageView.image = UIImage(named: "favoriteItem")
+//        placeholderImageView.widthAnchor.constraint(equalToConstant: 100).isActive = true
+//        placeholderImageView.heightAnchor.constraint(equalToConstant: 80).isActive = true
+        let nametAttributedString = attributedString(withText: "\tPC type: \(pc.name)", coloredText: "\(pc.name)", color: .systemGreen)
+        nameLabel.attributedText = nametAttributedString
+        let manufacturedAttributedString = attributedString(withText: "\tManufactured: \(pc.manufacturer)", coloredText: "\(pc.manufacturer)", color: .systemGreen)
+        manufacturedLabel.attributedText = manufacturedAttributedString
+        let modelAttributedString = attributedString(withText: "\tModel: \(pc.model)", coloredText: "\(pc.model)", color: .systemGreen)
+        modelLabel.attributedText = modelAttributedString
+        [nameLabel, manufacturedLabel, modelLabel].forEach{$0.font = .systemFont(ofSize: 13, weight: .regular)}
+//        productInfoStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20).isActive = true
+      
     }
 
     //MARK: - Actions

@@ -28,10 +28,14 @@ class FavoriteModel {
     func removeFromFavorite(at index: Int) {
         favoriteItems.remove(at: index)
     }
+    func clearAllFavorites() {
+            favoriteItems.removeAll()
+            delegate?.dataDidLoad()
+        }
     
     func saveChangesIfNeeded() {
         
-        guard !favoriteItems.isEmpty 
+        guard !favoriteItems.isEmpty
         else {
             localStorage.clearFavorites()
             return
