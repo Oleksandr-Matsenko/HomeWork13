@@ -36,7 +36,7 @@ class CatalogViewController: UIViewController {
         contentView.tableView.dataSource = self
         contentView.tableView.delegate = self
         
-        contentView.tableView.register(CustomCellTableViewCell.self, forCellReuseIdentifier: "CustomCell")
+        contentView.tableView.register(CustomCellTableViewCell.self, forCellReuseIdentifier: CustomCellTableViewCell.identifier)
 
     }
     private func setupTableView() {
@@ -67,7 +67,7 @@ extension CatalogViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell", for: indexPath) as? CustomCellTableViewCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: CustomCellTableViewCell.identifier, for: indexPath) as? CustomCellTableViewCell
         else {
             assertionFailure()
             return UITableViewCell()

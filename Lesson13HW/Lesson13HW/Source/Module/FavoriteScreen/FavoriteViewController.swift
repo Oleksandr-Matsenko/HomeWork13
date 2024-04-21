@@ -36,7 +36,7 @@ class FavoriteViewController: UIViewController {
         
         contentView.tableView.dataSource = self
         contentView.tableView.delegate = self
-        contentView.tableView.register(CustomCellTableViewCell.self, forCellReuseIdentifier: "CustomCell")
+        contentView.tableView.register(FavoriteCell.self, forCellReuseIdentifier: FavoriteCell.identifier)
         contentView.tableView.separatorColor = .systemGreen
         contentView.tableView.separatorInset = .init(top: 0, left: 15, bottom: 0, right: 15)
     }
@@ -83,14 +83,14 @@ extension FavoriteViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell", for: indexPath) as? CustomCellTableViewCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: FavoriteCell.identifier, for: indexPath) as? FavoriteCell
         else {
             assertionFailure()
             return UITableViewCell()
         }
         
         let item = model.favoriteItems[indexPath.row]
-        cell.configuteFavoriteItem(pc: item)
+        cell.configureFavorite(pc: item)
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

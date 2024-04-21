@@ -9,25 +9,29 @@ import UIKit
 
 class CustomCellTableViewCell: UITableViewCell {
     
+    // MARK: - Identifier
     
-    // MARK: - UI Components
+    static let identifier = "CustomCellTableViewCell"
+    
+    // MARK: - UI Elements
+    
     private lazy var placeholderImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.backgroundColor = .systemGray
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        imageView.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        imageView.widthAnchor.constraint(equalToConstant: Constant.ImageSize.width).isActive = true
+        imageView.heightAnchor.constraint(equalToConstant: Constant.ImageSize.heigth).isActive = true
         return imageView
     }()
-    private lazy var productCodeLabel = UIBuilder.createLabel(font: .systemFont(ofSize: 15, weight: .bold), textColor: .black)
-    private lazy var nameLabel = UIBuilder.createLabel(font: .systemFont(ofSize: 15, weight: .bold), textColor: .black)
-    private lazy var manufacturedLabel = UIBuilder.createLabel(font: .systemFont(ofSize: 15, weight: .bold), textColor: .black)
-    private lazy var modelLabel = UIBuilder.createLabel(font: .systemFont(ofSize: 15, weight: .bold), textColor: .black)
-    private lazy var ratingLabel = UIBuilder.createLabel(font: .systemFont(ofSize: 12), textColor: .black)
-    private lazy var sellingLabel = UIBuilder.createLabel(font: .systemFont(ofSize: 15), textColor: .black)
-    private lazy var priceLabel = UIBuilder.createLabel(font: .systemFont(ofSize: 15, weight: .bold), textColor: .black)
-    private lazy var currencyLabel = UIBuilder.createLabel(font: .systemFont(ofSize: 15, weight: .bold), textColor: .black)
+    private lazy var productCodeLabel = UIBuilder.createLabel(font: Constant.Labels.titleFont, textColor: Constant.Labels.textColor)
+    private lazy var nameLabel = UIBuilder.createLabel(font: Constant.Labels.titleFont, textColor: Constant.Labels.textColor)
+    private lazy var manufacturedLabel = UIBuilder.createLabel(font: Constant.Labels.titleFont, textColor: Constant.Labels.textColor)
+    private lazy var modelLabel = UIBuilder.createLabel(font: Constant.Labels.titleFont, textColor: Constant.Labels.textColor)
+    private lazy var ratingLabel = UIBuilder.createLabel(font: Constant.Labels.ratingFont, textColor: Constant.Labels.textColor)
+    private lazy var sellingLabel = UIBuilder.createLabel(font: Constant.Labels.titleFont, textColor: Constant.Labels.textColor)
+    private lazy var priceLabel = UIBuilder.createLabel(font: Constant.Labels.titleFont, textColor: Constant.Labels.textColor)
+    private lazy var currencyLabel = UIBuilder.createLabel(font: Constant.Labels.titleFont, textColor: Constant.Labels.textColor)
     private lazy var addToFavorite: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "toFavorite"), for: .normal)
@@ -36,7 +40,7 @@ class CustomCellTableViewCell: UITableViewCell {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    private lazy var toFavoriteLabel = UIBuilder.createLabel(font: .systemFont(ofSize: 12, weight: .bold), textColor: .systemRed)
+    private lazy var toFavoriteLabel = UIBuilder.createLabel(font: Constant.Labels.titleFont, textColor: .systemRed)
     private lazy var toFavoriteStackView: UIStackView = {
         let stack = UIStackView()
         stack.axis = .vertical
@@ -106,7 +110,7 @@ class CustomCellTableViewCell: UITableViewCell {
     }
     
     // MARK: - Cell Configuration
-    // Setup cell for CatalogViewController
+    
     func configurePC(pc: Pc) {
         placeholderImageView.image = UIImage(named: "mainPC")
         // Configure attributed strings for labels
@@ -134,25 +138,7 @@ class CustomCellTableViewCell: UITableViewCell {
         toFavoriteLabel.isHidden = true
         toFavoriteLabel.textAlignment = .center
     }
-    // Setup cell for FavoriteViewController
-    func configuteFavoriteItem(pc: Favorite) {
-        productCodeLabel.attributedText = attributedString(withText: "Product code: \(pc.id)", coloredText: "\(pc.id)", color: .systemGreen)
-        addToFavorite.isHidden = true
-        placeholderImageView.isHidden = false
-        placeholderImageView.image = UIImage(named: "favoriteItem")
-//        placeholderImageView.widthAnchor.constraint(equalToConstant: 100).isActive = true
-//        placeholderImageView.heightAnchor.constraint(equalToConstant: 80).isActive = true
-        let nametAttributedString = attributedString(withText: "\tPC type: \(pc.name)", coloredText: "\(pc.name)", color: .systemGreen)
-        nameLabel.attributedText = nametAttributedString
-        let manufacturedAttributedString = attributedString(withText: "\tManufactured: \(pc.manufacturer)", coloredText: "\(pc.manufacturer)", color: .systemGreen)
-        manufacturedLabel.attributedText = manufacturedAttributedString
-        let modelAttributedString = attributedString(withText: "\tModel: \(pc.model)", coloredText: "\(pc.model)", color: .systemGreen)
-        modelLabel.attributedText = modelAttributedString
-        [nameLabel, manufacturedLabel, modelLabel].forEach{$0.font = .systemFont(ofSize: 13, weight: .regular)}
-//        productInfoStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20).isActive = true
-      
-    }
-
+   
     //MARK: - Actions
     
     @objc private func savedToFavorite() {
@@ -182,6 +168,17 @@ class CustomCellTableViewCell: UITableViewCell {
         return attributedString
     }
     
+}
+private enum Constant {
+    enum ImageSize {
+        static let width: CGFloat = 100
+        static let heigth: CGFloat = 100
+    }
+    enum Labels {
+        static let titleFont: UIFont = UIFont.boldSystemFont(ofSize: 15)
+        static let textColor: UIColor = .black
+        static let ratingFont: UIFont = UIFont.boldSystemFont(ofSize: 12)
+    }
 }
 
 
